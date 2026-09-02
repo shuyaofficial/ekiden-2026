@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>今週やること — 駅伝</title>
+<link rel="icon" href="data:,">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{--paper:#fcfbf9;--raised:#fff;--sunk:#f5f3ef;--ink:#2b2925;--soft:#6f6a61;
+--rule:#e4e0d8;--ui:#8a857c;--indigo:#3a4a8c;--red:#b3402e;--ok:#2e6e62;--marker:#f3e8b8;
+--serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,serif;
+--sans:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+--mono:"SF Mono",Menlo,Consolas,monospace}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+font-size:1rem;line-height:1.75;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding-left:16px;padding-right:16px}
+header{padding:32px 0 8px}
+h1{font-family:var(--serif);font-size:1.75rem;font-weight:600;margin:0 0 4px;line-height:1.35}
+.sub{color:var(--soft);font-size:.875rem;margin:0}
+.count{font-family:var(--mono);font-size:3rem;line-height:1;color:var(--indigo);display:block;margin:24px 0 2px}
+.count-lab{font-size:.8125rem;color:var(--soft);display:block;margin-bottom:32px}
+h2{font-family:var(--serif);font-size:1.25rem;font-weight:600;margin:0 0 4px;
+padding-bottom:12px;border-bottom:1px solid var(--ui)}
+.theme{color:var(--soft);font-size:.875rem;margin:0 0 20px}
+ul.tasks{list-style:none;padding:0;margin:0 0 24px}
+ul.tasks li{border-bottom:1px solid var(--rule)}
+ul.tasks label{display:flex;align-items:flex-start;gap:14px;min-height:56px;
+padding:14px 2px;cursor:pointer;font-size:1rem}
+ul.tasks input{width:26px;height:26px;margin:2px 0 0;flex:0 0 auto;accent-color:var(--indigo);cursor:pointer}
+.txt{flex:1 1 auto}
+ul.tasks input:checked ~ .txt{color:var(--soft);text-decoration:line-through}
+.prog{font-family:var(--mono);font-size:.875rem;color:var(--soft);margin:0 0 32px}
+.prog b{color:var(--ok);font-size:1.25rem}
+.note{border-left:3px solid var(--indigo);background:#e8ecf6;padding:14px 16px;
+margin:0 0 32px;font-size:.9375rem}
+.note.stop{border-left-color:var(--red);background:#f7ece9}
+.note p{margin:0}
+.next{border-top:1px solid var(--rule);padding-top:20px;font-size:.875rem;color:var(--soft)}
+.next b{color:var(--ink)}
+footer{border-top:1px solid var(--ui);margin-top:40px;padding:20px 0 40px;
+font-size:.8125rem;color:var(--soft)}
+@media(prefers-reduced-motion:no-preference){label,input{transition:color 120ms ease}}
+</style></head>
+<body><div class="wrap">
+<header>
+<h1>今週やること</h1>
+<p class="sub">越谷レイクタウン駅伝 · 11/3(火)</p>
+<span class="count">62</span>
+<span class="count-lab">日</span>
+</header>
+<main>
+<h2>W1 · 9/1–9/7</h2>
+<p class="theme">再導入</p>
+<ul class="tasks"><li><label><input type="checkbox"><span class="txt">イージーラン 20分（歩き混じりでいい）</span></label></li><li><label><input type="checkbox"><span class="txt">イージーラン 25分</span></label></li><li><label><input type="checkbox"><span class="txt">ジム 全身＋バイク15分</span></label></li></ul>
+<p class="prog"><b id="done">0</b> / 3 完了</p>
+<div class="note"><p>今週は速さを一切気にしない。3回とも実行できたら満点。1回でもゼロよりずっといい。</p></div>
+<div class="next">次の締切 · <b>10/4(日) 23:59 エントリー</b>（あと32日）</div>
+</main>
+<footer>
+<p>曜日は決めなくていい。できた分だけでいい。<br>
+チェックはこの端末に保存される。毎週リセットされる。</p>
+</footer>
+</div>
+<script>
+(function(){
+  var KEY = "ekiden.week1";
+  var boxes = document.querySelectorAll("ul.tasks input");
+  var out = document.getElementById("done");
+  function save(){
+    var v = [];
+    boxes.forEach(function(b,i){ if(b.checked) v.push(i); });
+    try { localStorage.setItem(KEY, JSON.stringify(v)); } catch(e) {}
+    out.textContent = v.length;
+  }
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || "[]");
+    saved.forEach(function(i){ if(boxes[i]) boxes[i].checked = true; });
+  } catch(e) {}
+  boxes.forEach(function(b){ b.addEventListener("change", save); });
+  save();
+})();
+</script>
+</body></html>
